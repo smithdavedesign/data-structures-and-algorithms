@@ -16,7 +16,8 @@ int main ()
 	{
 		char key;
 		cout << "\nEnter move (a = left, w = up, d = right, s = down,\n\tq = quit, i = instructions): ";
-		cin >> key;
+		if (!(cin >> key))
+			key = 'q';  // input ended (Ctrl-D or a closed pipe): quit instead of looping forever
 		if (key == 'q')
 			quitting = true;
 		else if (key == 'i')
@@ -28,7 +29,8 @@ int main ()
 	}
 	maze.Message (finished, cout);
 	cout << "Please play again! (y/n) ";
-	cin >> play;
+	if (!(cin >> play))
+		play = 'n';
 	cin.clear ();;
     }
     cout << endl;

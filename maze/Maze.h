@@ -21,6 +21,7 @@ class Maze
 //	void calc_even_rand (int, int, int, int, int);
 //	void calc_odd_rand (int, int, int, int, int);
 	void Divide (int, int, int, int/*,int*/);
+	void Free ();
 	char ** grid;
 	int numRows, numCols;
 	int currentRow, currentCol;

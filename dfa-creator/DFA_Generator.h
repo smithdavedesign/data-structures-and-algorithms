@@ -53,6 +53,5 @@ class DFA_Generator
   
   vector <char> alphabet;
   vector <int> accepting_states;
-  int alphabet_map[];
 };
 #endif

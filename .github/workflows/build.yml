@@ -10,5 +10,15 @@ jobs:
         cxx: [g++, clang++]
     steps:
       - uses: actions/checkout@v4
-      - name: Build every program
-        run: make CXX=${{ matrix.cxx }} CXXFLAGS="-std=c++17 -O2 -Wall -Werror=return-type"
+      - name: Build every program, warnings as errors
+        run: make CXX=${{ matrix.cxx }} CXXFLAGS="-std=c++17 -O2 -Wall -Wextra -Werror -Wno-unused-parameter -Wno-error=unused-variable"
+  sanitizers:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with AddressSanitizer + UndefinedBehaviorSanitizer (leaks included on Linux)
+        run: make CXX=clang++ CXXFLAGS="-std=c++17 -O1 -g -fsanitize=address,undefined -fno-omit-frame-pointer"
+      - name: Run every program with sample input
+        run: sh smoke.sh
+      - name: Real numbers against Python's exact Decimal
+        run: make -C real-number-calculator test CXXFLAGS="-std=c++17 -O1 -g -fsanitize=address,undefined"

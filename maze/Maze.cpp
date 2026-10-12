@@ -21,19 +21,55 @@ Maze::Maze ()
 
 Maze::Maze (const Maze & other)
 {
+	grid = NULL;
+	numRows = 0;
+	* this = other;
 }
 
 Maze::~Maze ()
 {
+	Free ();
 }
 
 Maze & Maze::operator = (const Maze & other)
-{
-  return * this;
+{ // deep copy: each maze owns its own rows
+	if (this == & other)
+		return * this;
+	Free ();
+	numRows = other.numRows;
+	numCols = other.numCols;
+	currentRow = other.currentRow;
+	currentCol = other.currentCol;
+	startRow = other.startRow;
+	startCol = other.startCol;
+	endRow = other.endRow;
+	endCol = other.endCol;
+	if (other.grid)
+	{
+		grid = new char * [numRows];
+		for (int r = 0; r < numRows; r++)
+		{
+			grid[r] = new char [numCols + 1];
+			strcpy (grid[r], other.grid[r]);
+		}
+	}
+	return * this;
+}
+
+void Maze::Free ()
+{ // release the grid (Init allocates a new one for every game)
+	if (grid)
+	{
+		for (int r = 0; r < numRows; r++)
+			delete [] grid[r];
+		delete [] grid;
+	}
+	grid = NULL;
 }
 
 void Maze::Init ()
 {
+	Free ();
 	numRows = 21;
 	numCols = 31;
 
@@ -110,7 +146,6 @@ void Maze::Instructions (ostream & outs, istream & ins)
 
 void Maze::Display (ostream & outs)
 {
-	char esc = 0x1B;
 	system ("clear");
 	for (int r = 0; r < numRows; r++)
 	{
