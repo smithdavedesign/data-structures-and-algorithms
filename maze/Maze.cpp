@@ -135,7 +135,7 @@ void Maze::Init ()
 
 void Maze::Instructions (ostream & outs, istream & ins)
 {
-	system ("clear");
+	outs << "\033[H\033[2J";  // clear the screen (ANSI), without starting a shell
 	outs << "\nUse the a, w, d, and s keys to move yourself (O) through the\n";
 	outs << "maze to find the treasure ($)!\n\n";
 	outs << "\ta = left\n\tw = up\n\td = right\n\ts = down\n\tq = quit\n\ti = instructions\n\n";
@@ -146,7 +146,7 @@ void Maze::Instructions (ostream & outs, istream & ins)
 
 void Maze::Display (ostream & outs)
 {
-	system ("clear");
+	outs << "\033[H\033[2J";  // clear the screen (ANSI), without starting a shell
 	for (int r = 0; r < numRows; r++)
 	{
 	    for (int c = 0; c < numCols; c++)
