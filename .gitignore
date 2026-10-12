@@ -1,0 +1,15 @@
+# build output
+linked-list/linked-list
+maze/maze
+vector-sort/vector-sort
+real-number-calculator/real-number-calculator
+large-number-calculator/large-number-calculator
+dfa-creator/dfa-creator
+*.o
+*.out
+*.x
+a.out
+.AppleDouble/
+.DS_Store
+*~
+.#*

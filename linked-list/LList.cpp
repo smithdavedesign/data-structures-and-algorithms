@@ -104,6 +104,7 @@ bool LList::InsertLast (const int & value)
     last = last -> next;
   last -> next = np;
   size ++;
+  return true;
 }
 
 bool LList ::DeleteFirst ()

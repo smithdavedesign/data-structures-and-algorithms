@@ -29,6 +29,7 @@ Maze::~Maze ()
 
 Maze & Maze::operator = (const Maze & other)
 {
+  return * this;
 }
 
 void Maze::Init ()

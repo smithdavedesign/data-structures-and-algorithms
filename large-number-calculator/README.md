@@ -1,0 +1,16 @@
+# Large-number calculator
+
+Adds and subtracts integers of any length, stored as digit vectors (`largeNum`). It also has a recursive integer exponentiation.
+
+```sh
+make
+printf '123456789012345678901234567890\n987654321098765432109876543210\nn\n' | ./large-number-calculator
+```
+
+```
+EX result : 64
+a + b = 1111111110111111111011111111100
+ a - b = -864197532086419753208641975320
+```
+
+**Changed in 2026:** `exponentiation()` never finished. `exp_num-1 / 2` parses as `exp_num - 0`, so odd exponents recursed forever, and the program hung before printing anything. It now uses exponentiation by squaring.

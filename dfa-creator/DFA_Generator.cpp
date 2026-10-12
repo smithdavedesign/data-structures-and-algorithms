@@ -918,6 +918,7 @@ int DFA_Generator::user_Choice(int decision)
 	}
       return decision;
     }
+  return decision;
 }
 
 /*******************************************************************

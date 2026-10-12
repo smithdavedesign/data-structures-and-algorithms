@@ -1,11 +1,11 @@
-Creator: David Smith
-Date: 2016 Aug
-class: CS454
+# DFA creator
 
-# DFA-Creator
-Creates DFA's at run time with user input
-This program takes user choices to create a regular language that can be tested with any amount of strings. These strings they test will result in 
-ether a error or a success (meaning the string is within the domain of the language they created).
-It uses a 2D array to creat a DFA at runtime. The DFA is then used to create the users dream language. 
+Builds a deterministic finite automaton at run time from your description of a regular language: strings that start with, end with or contain a substring, or contain it at most, at least or exactly k times, or an odd or even number of times. It prints the transition table, then tests any strings you type against it. The DFA is a 2-D transition array.
 
-How to use: Follow the prompts on the command line. input strings untill satisfied. 
+CS 454 (theory of computation), August 2016.
+
+```sh
+make && ./dfa-creator    # then follow the prompts
+```
+
+**Changed in 2026:** `user_Choice` returns on every path (one fell off the end of the function).

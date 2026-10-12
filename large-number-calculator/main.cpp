@@ -39,19 +39,12 @@ int main()
 }
 
 int exponentiation(int base, int exp_num){
+  // Exponentiation by squaring: b^n = (b^(n/2))^2, times b once more when n is odd.
+  // (Fixed in 2026: `exp_num-1 / 2` parsed as `exp_num - 0`, so odd exponents recursed forever.)
   if(exp_num == 0)
     {
       return 1;
     }
-  if(exp_num % 2 == 0)
-    {
-      return exponentiation(base, (exp_num/2)) * base; //times the number by itself
-      //so call mult func with two params which are a and a
-    }
-  else
-    {
-      return  base * (exponentiation(base,  (exp_num-1 / 2)));
-      // use multiplication function for the recursive times a.
-    }
-
+  int half = exponentiation(base, exp_num / 2);
+  return exp_num % 2 == 0 ? half * half : half * half * base;
 }

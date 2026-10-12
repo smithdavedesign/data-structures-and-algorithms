@@ -13,16 +13,16 @@
 
 using namespace std;
 
-void function(std::fstream &stream);
+void sortAndSum(std::fstream &stream);
 
 int main(int argc, char **argv)
 {
   std::fstream input1 (argv[1]);
-  function(input1);
+  sortAndSum(input1);
 }
 
 
-void function(std::fstream &stream)
+void sortAndSum(std::fstream &stream)
 {
   float sum = 0;
   float desending = 0;
