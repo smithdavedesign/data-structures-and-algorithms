@@ -61,6 +61,6 @@ int main (int argc, char * argv[])
             break;
          default : cout << action << " is not a valid option\n";
       }
-      return 0;
+   return 0;
 }
 
