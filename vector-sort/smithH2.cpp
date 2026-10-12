@@ -38,7 +38,7 @@ void sortAndSum(std::fstream &stream)
   ////////////////////////////////////////////////////////////////////////////////////////
   //for the sum of the unsorted vector
  
-  for(int i = 0; i < floatVector.size(); i++)
+  for(int i = 0; i < (int) floatVector.size(); i++)
     {
       sum += floatVector[i];
 
@@ -50,7 +50,7 @@ void sortAndSum(std::fstream &stream)
   //sort in descending
   sort(floatVector.rbegin(), floatVector.rend());
 
-  for(int i = 0; i < floatVector.size(); i++)
+  for(int i = 0; i < (int) floatVector.size(); i++)
     {
       desending += floatVector[i];
 
@@ -61,7 +61,7 @@ void sortAndSum(std::fstream &stream)
    ///////////////////////////////////////////////////////////////////////////////////////////////
    //sort in ascending
    sort(floatVector.begin(), floatVector.end());
-  for(int i = 0; i < floatVector.size(); i++)
+  for(int i = 0; i < (int) floatVector.size(); i++)
     {
       ascending += floatVector[i];
 
@@ -71,7 +71,7 @@ void sortAndSum(std::fstream &stream)
  
   //////////////////////////////////////////////////////////////////////////////////////////////
 
-    for(int i = 0; i < floatVector.size(); i++)
+    for(int i = 0; i < (int) floatVector.size(); i++)
     {
       cout << floatVector[i] << '\n';
     }

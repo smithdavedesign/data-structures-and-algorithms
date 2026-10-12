@@ -8,4 +8,7 @@ Project 3.
 make && ./maze
 ```
 
-**Changed in 2026:** the stubbed assignment operator returns `*this`, as every `operator=` must.
+**Changed in 2026:**
+- The grid was never freed: one leak per game. `Maze` now follows the rule of three (destructor, deep copy constructor, deep assignment).
+- Closing the input (Ctrl-D or a closed pipe) made the move loop spin forever. It now quits.
+- The screen is cleared with an ANSI escape instead of `system("clear")`, which started a shell on every move.

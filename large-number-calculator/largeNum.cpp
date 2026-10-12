@@ -62,7 +62,7 @@ largeNum *largeNum::sum(largeNum *b)
     {
       equalizeSize(b);
 
-      for(int i = 0; i < num.size(); i++)
+      for(int i = 0; i < (int) num.size(); i++)
 	{
 	  int tempSum = num[i] + b->getAtPos(i) + carry;
 	  if(tempSum > 9)
@@ -132,12 +132,12 @@ largeNum *largeNum::diff(largeNum *b)
     }
   else
     {
-      for(int i = 0; i < num.size(); i++)
+      for(int i = 0; i < (int) num.size(); i++)
 	{
 	  int tempDiff = num[i] - b->getAtPos(i) - borrow;
 	  if(tempDiff < 0)
 	    {
-	      for(int j = i + 1; j < num.size(); j++)
+	      for(int j = i + 1; j < (int) num.size(); j++)
 		{
 		  if(num[j] != 0)
 		    {
@@ -161,7 +161,7 @@ largeNum *largeNum::diff(largeNum *b)
 
 void largeNum::setLength(int l)
 {
-  while(l > num.size())
+  while(l > (int) num.size())
     {
       num.push_back(0);
     }
@@ -247,7 +247,7 @@ bool largeNum::isLarger(largeNum *b)
 
 void largeNum::equalizeSize(largeNum *b)
 {
-  if(b->size() > num.size())
+  if((int) b->size() > (int) num.size())
     {
       setLength(b->size());
     }

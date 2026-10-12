@@ -2,7 +2,7 @@
 
 /*******************************************************************
 //Constructor for DFA_Gen class
-/********************************************************************/
+*********************************************************************/
 DFA_Generator::DFA_Generator()
 {
   //strings for each function
@@ -25,9 +25,11 @@ DFA_Generator::DFA_Generator()
   combine =false;
   combine_result = false;
   odd =false;//boolean flag for even odd function
+  most = least = exact = false;  // read by every DFA build, set only for the option chosen
+  first = seccond = 0;
 }
 
-/*******************************************************************
+/********************************************************************/
 /********************************************************************/
 DFA_Generator::~DFA_Generator()
 {
@@ -36,27 +38,26 @@ DFA_Generator::~DFA_Generator()
 
 /*******************************************************************
 // DFA Creator for the substring begin
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::begin_Substring(string s) //f
 {
   int accepting_state = s.length();
-  int fail_state = -1;
   int how_many_states = s.length() + 1; 
 
   if(combine == true && accepting_states.size() > 0)
     {
-      for(int i =0; i < accepting_states.size(); i++)
+      for(int i =0; i < (int) accepting_states.size(); i++)
 	{
 	  accepting_states.pop_back();
 	}
     }
   
   accepting_states.push_back(accepting_state); //accepting statevector
-  int dfa [how_many_states][alphabet.size()];
+  vector<vector<int>> dfa (how_many_states, vector<int> (alphabet.size ()));  // was a variable-length array (not standard C++)
   
   for(int l = 0; l <  how_many_states; l++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	{
 	  if(l == accepting_state)
 	    {
@@ -84,7 +85,7 @@ void DFA_Generator::begin_Substring(string s) //f
   cout << "here is your transition table: " << endl;
   for (int i = 0; i < how_many_states; i++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	cout << dfa[i][j] << " ";
       cout << endl;
     }
@@ -106,7 +107,7 @@ void DFA_Generator::begin_Substring(string s) //f
       int next_state = 0;
       //////Check to see if the string passes the dfa the user specified///////
       ///testing the dfa///////
-      for(int i = 0; i < input.length(); i++)
+      for(int i = 0; i < (int) input.length(); i++)
 	{
 	  if(old_state == -1)
 	    {
@@ -125,7 +126,7 @@ void DFA_Generator::begin_Substring(string s) //f
 	    }
 	}
 
-      for(int k=0; k < accepting_states.size(); k++)
+      for(int k=0; k < (int) accepting_states.size(); k++)
 	{
 	  if(old_state == accepting_states[k])//check to see if are final state was an accepting one
 	    {
@@ -137,7 +138,7 @@ void DFA_Generator::begin_Substring(string s) //f
 	{
 	  cout << "yes " << input << " is in the Language and ends in a accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -153,7 +154,7 @@ void DFA_Generator::begin_Substring(string s) //f
 	  cout << "no " << input << " is not in the Language and ends in"
 	       << " a non accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -181,18 +182,18 @@ void DFA_Generator::begin_Substring(string s) //f
 
 /*******************************************************************
 // DFA gen for substring end
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::end_Substring(string s)
 {
   int accepting_state = s.length();
   char char_start_state = s[0];
   int first_state = 1;
   int how_many_states = s.length() +1;
-  int dfa[how_many_states][alphabet.size()];  //initalize your dfa/trasition table
+  vector<vector<int>> dfa (how_many_states, vector<int> (alphabet.size ()));  // was a variable-length array (not standard C++)  //initalize your dfa/trasition table
 
   if(combine == true && accepting_states.size() > 0)
     {
-      for(int i =0; i < accepting_states.size(); i++)
+      for(int i =0; i < (int) accepting_states.size(); i++)
 	{
 	  accepting_states.pop_back();
 	}
@@ -201,7 +202,7 @@ void DFA_Generator::end_Substring(string s)
   
   for(int l = 0; l <  how_many_states; l++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	{
 	  //cout << s[subcounter] << " " << alphabet[j] << " " << char_start_state << int_super_start_state << int_final_state << endl;
 	  if(l == accepting_state)
@@ -234,7 +235,7 @@ void DFA_Generator::end_Substring(string s)
   cout << "here is your transition table: " << endl;
   for (int i = 0; i < how_many_states; i++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	cout << dfa[i][j] << " ";
       cout << endl;
     }
@@ -257,7 +258,7 @@ void DFA_Generator::end_Substring(string s)
       int next_state = 0;
       //////Check to see if the string passes the dfa the user specified///////
       ///testing the dfa///////
-      for(int i = 0; i < input.length(); i++)
+      for(int i = 0; i < (int) input.length(); i++)
 	{
 	  if(old_state == -1)
 	    {
@@ -276,7 +277,7 @@ void DFA_Generator::end_Substring(string s)
 	    }
 	}
 
-      for(int k=0; k < accepting_states.size(); k++)
+      for(int k=0; k < (int) accepting_states.size(); k++)
 	{
 	  if(next_state == accepting_states[k])//check to see if are final state was an accepting one
 	    {
@@ -288,7 +289,7 @@ void DFA_Generator::end_Substring(string s)
 	{
 	  cout << "yes " << input << " is in the Language and ends in a accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -304,7 +305,7 @@ void DFA_Generator::end_Substring(string s)
 	  cout << "no " << input << " is not in the Language and ends in"
 	       << " a non accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -331,7 +332,7 @@ void DFA_Generator::end_Substring(string s)
 
 /*******************************************************************
 // DFA gen substring of least or most or exact length k
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most, bool least, bool exact, int k) // seperate constructor
 {
   char char_start_state = s[0];
@@ -346,7 +347,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
   //  enum alphabet_state_values {alphabet[i] =1,
   if(combine == true && accepting_states.size() > 0)
     {
-      for(int i =0; i < accepting_states.size(); i++)
+      for(int i =0; i < (int) accepting_states.size(); i++)
 	{
 	  accepting_states.pop_back();
 	}
@@ -362,9 +363,8 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
   else if(most == true)
     {
       num_loop = k + 1;
-      int fail_state = s.length() * num_loop;
       // accepting_state = s.length() * num_loop;
-      for(int i =0; i < num_loop * s.length(); i++)
+      for(int i =0; i < num_loop * (int) s.length(); i++)
 	accepting_states.push_back(i);
       
     }
@@ -372,25 +372,25 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
     {
       num_loop = k + 1;
       accepting_state = s.length() * k;
-      for(int i =0; i < s.length(); i++)
+      for(int i =0; i < (int) s.length(); i++)
 	{
 	  accepting_states.push_back(accepting_state + i);
 	}
     }
 
-  for(int i = 0; i < alphabet.size(); i++)
+  for(int i = 0; i < (int) alphabet.size(); i++)
     cout << alphabet[i] << endl;
   cout << endl;
   
   //how manny states we will have
   int how_manny_states = s.length() * num_loop + 1;
   //initalize your dfa/trasition table
-  int dfa[how_manny_states][alphabet.size()];
+  vector<vector<int>> dfa (how_manny_states, vector<int> (alphabet.size ()));  // was a variable-length array (not standard C++)
   //  dfa = new int*[];
   int subcounter = 0;
   for(int l = 0; l <  how_manny_states; l++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	{
 	  if(s[subcounter] == alphabet[j])
 	    {
@@ -406,7 +406,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
 	  else
 	    dfa[l][j] = int_super_start_state;
 	}
-      if(subcounter == (s.length() - 1))
+      if(subcounter == ((int) s.length() - 1))
 	subcounter = 0;
       else
 	subcounter++;
@@ -426,7 +426,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
   cout << "here is your transition table: " << endl;
   for (int i = 0; i < how_manny_states; i++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	cout << dfa[i][j] << " ";
       cout << endl;
     }
@@ -449,7 +449,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
       int next_state = 0;
       //////Check to see if the string passes the dfa the user specified///////
       ///testing the dfa///////
-      for(int i = 0; i < input.length(); i++)
+      for(int i = 0; i < (int) input.length(); i++)
 	{
 	  if(old_state == -1)
 	    {
@@ -469,7 +469,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
 	    }
 	}
 
-      for(int k=0; k < accepting_states.size(); k++)
+      for(int k=0; k < (int) accepting_states.size(); k++)
 	{
 	  if(old_state == accepting_states[k])//check to see if are final state was an accepting one
 	    {
@@ -481,7 +481,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
 	{
 	  cout << "yes " << input << " is in the Language and ends in a accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -497,7 +497,7 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
 	  cout << "no " << input << " is not in the Language and ends in"
 	       << " a non accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -524,15 +524,14 @@ void DFA_Generator::contains_Substring_Least_Most_Exactly_K(string s, bool most,
 
 /*******************************************************************
 // DFA gen substring that is even or odd
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
 {
-  bool odd_half =false;
   //accepting state
   int accept_state = s.length();
   if(combine == true && accepting_states.size() > 0)
     {
-      for(int i =0; i < accepting_states.size(); i++)
+      for(int i =0; i < (int) accepting_states.size(); i++)
 	{
 	  accepting_states.pop_back();
 	}
@@ -541,7 +540,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
   
   if(odd == true)
     {
-      for(int i =0; i < s.length(); i++)
+      for(int i =0; i < (int) s.length(); i++)
 	{
 	  if(s.length() == 1)
 	    {
@@ -553,7 +552,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
     }
   else
     {
-      for(int i=0; i < s.length(); i++)
+      for(int i=0; i < (int) s.length(); i++)
 	{
 	  if(s.length() == 1)
 	    {
@@ -573,19 +572,17 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
   //num loop is how manny times were gonna repeat the given dfa with another of the same dfa
   int num_loop = 1;
   //accepting state
-  int accepting_state = 0;
   //the substring is at least k
   //  enum alphabet_state_values {alphabet[i] =1,
-  int final_transition = s.length() *2;
   //how manny states we will have
   int how_manny_states = s.length() * 2;
   //initalize your dfa/trasition table
-  int dfa [how_manny_states][alphabet.size()];
+  vector<vector<int>> dfa (how_manny_states, vector<int> (alphabet.size ()));  // was a variable-length array (not standard C++)
 
   int subcounter = 0;
   for(int l = 0; l <  how_manny_states; l++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	{
 	  //cout << s.length() << " " << l << endl;
 
@@ -614,7 +611,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
 	    }
 	}
 
-      if(subcounter == (s.length() - 1))
+      if(subcounter == ((int) s.length() - 1))
 	subcounter = 0;
       else
 	subcounter++;
@@ -644,7 +641,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
   cout << "here is your transition table: " << endl;
   for (int i = 0; i < how_manny_states; i++)
     {
-      for(int j = 0; j < alphabet.size(); j++)
+      for(int j = 0; j < (int) alphabet.size(); j++)
 	cout << dfa[i][j] << " ";
       cout << endl;
     }
@@ -666,14 +663,14 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
       int next_state = 0;
       //////Check to see if the string passes the dfa the user specified///////
       ///testing the dfa///////
-      for(int i = 0; i < input.length(); i++)
+      for(int i = 0; i < (int) input.length(); i++)
 	{
 	  next_state = dfa[old_state][column_Finder(input[i])];
 	  //checks the value of the character in are alphabet. maps it using the old state so now we know where are next state is
 	  old_state = next_state;
 	}
       
-      for(int k=0; k < accepting_states.size(); k++)
+      for(int k=0; k < (int) accepting_states.size(); k++)
 	{
 	  //  cout << old_state << endl;
 	  // cout << accepting_states[k] << endl;
@@ -687,7 +684,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
 	{
 	  cout << "yes " << input << " is in the Language and ends in a accepting state " << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -704,7 +701,7 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
 	       << "a non accepting state " << endl;
 	  cout << "the state is: " << old_state << endl;
 	  cout << "accepting states are: ";
-	  for(int i =0; i< accepting_states.size(); i++)
+	  for(int i =0; i< (int) accepting_states.size(); i++)
 	    {
 	      cout << accepting_states[i] << " ";
 	    }
@@ -730,12 +727,11 @@ void DFA_Generator::contains_Substring_Odd_Even(string s, bool odd)
 
 /*******************************************************************
 // Sets the alphabet for the desired DFA
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::set_Alphabet(int how_many)
 {
   alphabet.clear();
   string alphabet_string = "";
-  alphabet_map[how_many];
   
   cout << "enter your alphabet all in one line, for example if you wanted 0 and 1 in your alphabet you would enter 01 . " << endl;
   cin >> alphabet_string;
@@ -751,7 +747,7 @@ void DFA_Generator::set_Alphabet(int how_many)
 /*******************************************************************
 // This function calls all the needed functions to set up are input for are DFA
 // creating functions.
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::user_Choice_Set()
 {
   int alphabet_Size = 0;
@@ -772,7 +768,7 @@ void DFA_Generator::user_Choice_Set()
    
   /////////////// set rules for dfa up /////////////////////////////
   cin >> decision;
-  int rule_chosen = user_Choice(decision);
+  user_Choice(decision);
 
   //moved
   
@@ -786,7 +782,7 @@ void DFA_Generator::user_Choice_Set()
 /*******************************************************************
 //takes the user choice of operations/rules and stores them so we can make a DFA
 //with the data they have chosen.
-/********************************************************************/
+*********************************************************************/
 int DFA_Generator::user_Choice(int decision)
 {
   if(decision == 1)
@@ -923,7 +919,7 @@ int DFA_Generator::user_Choice(int decision)
 
 /*******************************************************************
 // This function calls the functions to create the DFAs by using previous boolenas then will call the tester function
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::DFA_Function_Caller()
 {
 
@@ -1021,7 +1017,7 @@ void DFA_Generator::DFA_Function_Caller()
      return;
    }
  
- if(contain_even_odd = true)//4
+ if(contain_even_odd == true)//4
    {
      contains_Substring_Odd_Even(begin_sub_odd_or_even, odd);//creates the dfa
      return;
@@ -1032,7 +1028,7 @@ void DFA_Generator::DFA_Function_Caller()
 
 /*******************************************************************
 // This function calls the functions to create the DFAs by using previous boolenas
-/********************************************************************/
+*********************************************************************/
 void DFA_Generator::string_Check()
 {
   return;
@@ -1041,7 +1037,7 @@ void DFA_Generator::string_Check()
 int DFA_Generator::column_Finder(char input)
 {
   int counter =0;
-  for(int i =0; i < alphabet.size(); i++)
+  for(int i =0; i < (int) alphabet.size(); i++)
     {
       if(input == alphabet[i])
 	return counter;

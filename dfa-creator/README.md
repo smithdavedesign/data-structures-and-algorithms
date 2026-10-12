@@ -8,4 +8,11 @@ CS 454 (theory of computation), August 2016.
 make && ./dfa-creator    # then follow the prompts
 ```
 
-**Changed in 2026:** `user_Choice` returns on every path (one fell off the end of the function).
+**Changed in 2026** (found with strict warnings and the sanitizers):
+- `if (contain_even_odd = true)` assigned instead of comparing, so the odd/even DFA was built whenever no earlier option matched. It's now `==`.
+- The at most / at least / exactly flags were read without ever being initialized (UndefinedBehaviorSanitizer).
+- A zero-length array member was read out of bounds. It's removed, since nothing used it.
+- The four transition tables were variable-length arrays, which aren't standard C++. They're now `vector<vector<int>>`.
+- `user_Choice` returns on every path, and the generator object is no longer leaked.
+
+Checked with scripted sessions for all seven language types (starts with, ends with, contains at most / at least / exactly k, odd and even counts).

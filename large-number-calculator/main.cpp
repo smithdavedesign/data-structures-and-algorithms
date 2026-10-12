@@ -14,22 +14,25 @@ int main()
     {
       std::cout << "input first variable: ";
       std::cin >> var;
-      largeNum *a = new largeNum(var);
+      largeNum a(var);
 
-      std::cout << "input first variable: ";
+      std::cout << "input second variable: ";
       std::cin >> var;
-      largeNum *b = new largeNum(var);
+      largeNum b(var);
       std::cout << "a is ";
-      a->print();
+      a.print();
       std::cout << "b is ";
-      b->print();
-      largeNum *sum = a->sum(b);
-      largeNum *diff = a->diff(b);
+      b.print();
+      largeNum *sum = a.sum(&b);    // sum() and diff() return new objects: free them below
+      largeNum *diff = a.diff(&b);
 
       std::cout << "a + b = ";
       sum->print();
       std::cout << " a - b = ";
       diff->print();
+      delete sum;
+      delete diff;
+      std::cout << "another? (y/n) ";
 
 
       std::cin >> end;

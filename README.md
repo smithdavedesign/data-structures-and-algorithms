@@ -26,4 +26,6 @@ CI builds everything with gcc on every push.
 
 ## History
 
-These used to be separate repos, now archived: LinkedLists-C-, Recursive-made-Maze-Game, vector-sort, Real-Number-Calculator, exponential-Large-Number-Calculator and DFA-Creator. In 2026 they were cleaned up (build junk removed, one Makefile each) and four real bugs were fixed: a list insert that reported failure, an exponentiation that never finished, a name clash with `std::function`, and missing returns. Each README says what changed.
+These used to be separate repos, now archived: LinkedLists-C-, Recursive-made-Maze-Game, vector-sort, Real-Number-Calculator, exponential-Large-Number-Calculator and DFA-Creator. In 2026 they were cleaned up: build junk removed, one Makefile each, no warnings under `-Wall -Wextra`. Each program was then run under AddressSanitizer and UndefinedBehaviorSanitizer. That found and fixed a list insert that reported failure, an exponentiation that never finished, an `=`/`==` mix-up, uninitialized flags, memory leaks, and a hang when input ends. The arbitrary-precision `Real` class turned out to be mostly broken and was rewritten; it's now checked against Python's exact `Decimal`. Each README says what changed.
+
+CI builds with gcc and clang with warnings as errors. It also runs every program with sample input under the sanitizers (`smoke.sh`), so a memory error, undefined behavior or a leak fails the build.
